@@ -11,55 +11,58 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 public class AddPlantActivity extends AppCompatActivity {
 
-    private EditText etPlantName, etPlantSpecies, etWateringFrequency;
+    private EditText etPlantName, etWateringFrequency;
+    private Spinner spPlantType;
     private Button btnSavePlant;
-    private Spinner spPlantType; // Spinner para tipo de planta
-    private ArrayList<Plant> plantList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
 
+        // Vincular los campos con sus IDs
         etPlantName = findViewById(R.id.et_plant_name);
         etWateringFrequency = findViewById(R.id.et_watering_frequency);
-        spPlantType = findViewById(R.id.sp_plant_type); // Spinner de tipo de planta
+        spPlantType = findViewById(R.id.sp_plant_type);
         btnSavePlant = findViewById(R.id.btn_save_plant);
 
-        // Configuramos el Spinner con los tipos de plantas
+        // Configurar el Spinner con los tipos de plantas desde strings.xml
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.plant_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPlantType.setAdapter(adapter);
 
-        if (getIntent().getSerializableExtra("plantList") != null) {
-            plantList = (ArrayList<Plant>) getIntent().getSerializableExtra("plantList");
-        } else {
-            plantList = new ArrayList<>();
-        }
-
         btnSavePlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Obtener los valores ingresados por el usuario
                 String name = etPlantName.getText().toString();
-                String species = etPlantSpecies.getText().toString();
-                String wateringFrequency = etWateringFrequency.getText().toString();
-                String plantType = spPlantType.getSelectedItem().toString(); // Tipo de planta seleccionado
+                String species = spPlantType.getSelectedItem().toString();
+                String wateringFrequencyText = etWateringFrequency.getText().toString();
 
-                if (!name.isEmpty() && !species.isEmpty() && !wateringFrequency.isEmpty()) {
-                    Plant newPlant = new Plant(name, species, wateringFrequency, plantType);
-                    plantList.add(newPlant);
+                // Validar que los campos no estén vacíos
+                if (name.isEmpty() || wateringFrequencyText.isEmpty()) {
+                    Toast.makeText(AddPlantActivity.this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                    Intent intent = new Intent();
-                    intent.putExtra("plantList", plantList);
-                    setResult(RESULT_OK, intent);
+                // Convertir el texto de frecuencia de riego a un entero
+                try {
+                    int wateringFrequency = Integer.parseInt(wateringFrequencyText);
+
+                    // Crear una nueva planta con los datos ingresados
+                    Plant newPlant = new Plant(name, species, wateringFrequency);
+
+                    // Enviar la nueva planta de vuelta a la actividad principal
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("newPlant", newPlant);
+                    setResult(RESULT_OK, resultIntent);
                     finish();
-                } else {
-                    Toast.makeText(AddPlantActivity.this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                } catch (NumberFormatException e) {
+                    // Manejo del error si el número no es válido
+                    Toast.makeText(AddPlantActivity.this, "Frecuencia de riego debe ser un número", Toast.LENGTH_SHORT).show();
                 }
             }
         });

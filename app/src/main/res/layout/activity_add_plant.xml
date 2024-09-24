@@ -12,7 +12,6 @@
         android:hint="Nombre de la Planta"
         android:inputType="text" />
 
-
     <EditText
         android:id="@+id/et_watering_frequency"
         android:layout_width="match_parent"
@@ -32,4 +31,5 @@
         android:text="Guardar Planta"
         android:layout_gravity="center"
         android:padding="16dp" />
+
 </LinearLayout>

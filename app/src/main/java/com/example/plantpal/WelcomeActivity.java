@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class WelcomeActivity extends AppCompatActivity {
 
     private Button btnAddPlant, btnViewPlants;
-    private ArrayList<Plant> plantList;
+    private ArrayList<Plant> plantList;  // Lista de plantas agregadas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,40 +22,36 @@ public class WelcomeActivity extends AppCompatActivity {
         btnAddPlant = findViewById(R.id.btn_add_plant);
         btnViewPlants = findViewById(R.id.btn_view_plants);
 
-        // Inicializamos la lista de plantas si no existe
-        if (getIntent().getSerializableExtra("plantList") != null) {
-            plantList = (ArrayList<Plant>) getIntent().getSerializableExtra("plantList");
-        } else {
-            plantList = new ArrayList<>();
-        }
+        plantList = new ArrayList<>();  // Inicializar la lista de plantas
 
-        // Navegar a la pantalla para agregar plantas
+        // Botón para agregar plantas
         btnAddPlant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WelcomeActivity.this, AddPlantActivity.class);
-                intent.putExtra("plantList", plantList);  // Pasamos la lista de plantas
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, 1);  // Lanzar AddPlantActivity
             }
         });
 
-        // Navegar a la lista de plantas
+        // Botón para ver la lista de plantas
         btnViewPlants.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WelcomeActivity.this, PlantListActivity.class);
-                intent.putExtra("plantList", plantList);  // Pasamos la lista de plantas
-                startActivity(intent);
+                intent.putExtra("plantList", plantList);  // Pasar la lista de plantas
+                startActivity(intent);  // Lanzar PlantListActivity
             }
         });
     }
 
-    // Actualizamos la lista de plantas cuando regrese de AddPlantActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            plantList = (ArrayList<Plant>) data.getSerializableExtra("plantList");
+            // Recuperar la planta agregada desde AddPlantActivity
+            Plant newPlant = (Plant) data.getSerializableExtra("newPlant");
+            plantList.add(newPlant);  // Añadir la nueva planta a la lista
         }
     }
 }

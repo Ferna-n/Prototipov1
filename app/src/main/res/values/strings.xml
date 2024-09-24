@@ -1,7 +1,8 @@
 <resources>
+    <!-- Otros strings -->
     <string name="app_name">PlantPal</string>
 
-    <!-- Añadir esto para el spinner -->
+    <!-- Tipos de plantas para el Spinner -->
     <string-array name="plant_types">
         <item>Hierba</item>
         <item>Mata</item>
