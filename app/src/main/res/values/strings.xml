@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">PlantPal</string>
+
+    <!-- Añadir esto para el spinner -->
+    <string-array name="plant_types">
+        <item>Hierba</item>
+        <item>Mata</item>
+        <item>Arbusto</item>
+        <item>Árbol</item>
+    </string-array>
+</resources>

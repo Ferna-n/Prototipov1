@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_plant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de la Planta"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_plant_species"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Especie"
+        android:textSize="20sp"
+        android:paddingBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_watering_frequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frecuencia de Riego"
+        android:textSize="18sp"
+        android:paddingBottom="16dp"/>
+
+</LinearLayout>
