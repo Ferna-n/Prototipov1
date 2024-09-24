@@ -42,6 +42,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);  // Lanzar PlantListActivity
             }
         });
+
+        Button btnSettings = findViewById(R.id.btn_settings);
+        btnSettings.setOnClickListener(v -> {
+            Intent intent = new Intent(WelcomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
@@ -54,4 +61,5 @@ public class WelcomeActivity extends AppCompatActivity {
             plantList.add(newPlant);  // Añadir la nueva planta a la lista
         }
     }
+
 }

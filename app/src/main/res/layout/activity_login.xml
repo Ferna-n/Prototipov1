@@ -1,10 +1,11 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/back">
 
     <ImageView
         android:id="@+id/imageView"
@@ -12,43 +13,64 @@
         android:layout_height="150dp"
         android:src="@drawable/logo" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="24dp" />
+
     <EditText
         android:id="@+id/et_username"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre" />
+        android:layout_height="60dp"
+        android:hint="Nombre"
+        android:textColor="#000000"
+        android:textColorHighlight="#0B0B0B"
+        android:textColorHint="#000000" />
 
     <EditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:hint="contraseña"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="43dp" />
 
     <CheckBox
         android:id="@+id/chk_show_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mostrar contraseña" />
+        android:text="Mostrar contraseña"
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
-        android:text="Login" />
+        android:text="Login"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
-        android:text="Registrar" />
+        android:text="Registrar"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
-        android:text="Salir" />
+        android:text="Salir"
+        android:textColor="#000000" />
+
 </LinearLayout>
