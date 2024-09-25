@@ -6,21 +6,32 @@
     android:padding="16dp"
     android:background="@drawable/back">
 
-    <TextView
-        android:id="@+id/tv_care_guide"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:textColor="#000000"
-        android:textSize="20sp" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="101dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="16dp"
-        android:backgroundTint="#4CAF50"
-        android:text="Volver"
-        android:textColor="#000000" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_care_guide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="#4CAF50"
+                android:padding="16dp"
+                android:text="Volver"
+                android:textColor="#000000" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
