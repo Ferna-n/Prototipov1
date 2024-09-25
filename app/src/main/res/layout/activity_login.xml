@@ -51,25 +51,28 @@
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
+        android:layout_width="114dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
+        android:padding="16dp"
         android:text="Login"
         android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
+        android:layout_width="112dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
+        android:padding="16dp"
         android:text="Registrar"
         android:textColor="#000000" />
 
     <Button
         android:id="@+id/btn_exit"
-        android:layout_width="wrap_content"
+        android:layout_width="114dp"
         android:layout_height="wrap_content"
         android:backgroundTint="#4CAF50"
+        android:padding="16dp"
         android:text="Salir"
         android:textColor="#000000" />
 

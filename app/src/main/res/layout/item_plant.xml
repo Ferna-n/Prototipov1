@@ -34,6 +34,8 @@
         android:layout_gravity="center"
         android:backgroundTint="#4CAF50"
         android:text="Volver"
-        android:textColor="#000000" />
+        android:padding="16dp"
+        android:textColor="#000000"
+        android:visibility="visible" />
 
 </LinearLayout>

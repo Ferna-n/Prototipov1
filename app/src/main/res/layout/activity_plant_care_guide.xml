@@ -14,15 +14,12 @@
         android:textColor="#000000"
         android:textSize="20sp" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="557dp" />
-
     <Button
         android:id="@+id/btn_back"
         android:layout_width="101dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:padding="16dp"
         android:backgroundTint="#4CAF50"
         android:text="Volver"
         android:textColor="#000000" />
