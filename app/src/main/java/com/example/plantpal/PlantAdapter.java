@@ -1,8 +1,10 @@
 package com.example.plantpal;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,6 +32,11 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         Plant plant = plantList.get(position);
         holder.tvPlantName.setText(plant.getName());
         holder.tvPlantSpecies.setText(plant.getSpecies());
+
+        holder.btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), WelcomeActivity.class);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -45,11 +52,13 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
 
     class PlantViewHolder extends RecyclerView.ViewHolder {
         TextView tvPlantName, tvPlantSpecies;
+        Button btnBack;
 
         public PlantViewHolder(@NonNull View itemView) {
             super(itemView);
             tvPlantName = itemView.findViewById(R.id.tv_plant_name);
             tvPlantSpecies = itemView.findViewById(R.id.tv_plant_species);
+            btnBack = itemView.findViewById(R.id.btn_back);
         }
     }
 }

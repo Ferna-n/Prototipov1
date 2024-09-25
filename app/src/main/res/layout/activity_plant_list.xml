@@ -12,6 +12,6 @@
         android:layout_height="60dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
+        android:dividerHeight="5dp" />
 
 </LinearLayout>

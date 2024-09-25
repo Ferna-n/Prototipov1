@@ -16,6 +16,7 @@ public class AddPlantActivity extends AppCompatActivity {
     private EditText etPlantName, etWateringFrequency;
     private Spinner spPlantType;
     private Button btnSavePlant;
+    private Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,12 +28,23 @@ public class AddPlantActivity extends AppCompatActivity {
         etWateringFrequency = findViewById(R.id.et_watering_frequency);
         spPlantType = findViewById(R.id.sp_plant_type);
         btnSavePlant = findViewById(R.id.btn_save_plant);
+        btnBack = findViewById(R.id.btn_back);
 
         // Configurar el Spinner con los tipos de plantas desde strings.xml
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.plant_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPlantType.setAdapter(adapter);
+
+        // Configurar el botón de volver
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddPlantActivity.this, WelcomeActivity.class);
+                startActivity(intent);
+                finish(); // Opcional, para cerrar esta actividad
+            }
+        });
 
         btnSavePlant.setOnClickListener(new View.OnClickListener() {
             @Override

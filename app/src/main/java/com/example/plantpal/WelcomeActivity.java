@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private Button btnAddPlant, btnViewPlants;
+    private Button btnAddPlant, btnViewPlants,btnCareGuide;
     private ArrayList<Plant> plantList;  // Lista de plantas agregadas
 
     @Override
@@ -21,6 +21,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         btnAddPlant = findViewById(R.id.btn_add_plant);
         btnViewPlants = findViewById(R.id.btn_view_plants);
+        btnCareGuide = findViewById(R.id.btn_care_guide); // Nuevo botón
 
         plantList = new ArrayList<>();  // Inicializar la lista de plantas
 
@@ -47,6 +48,14 @@ public class WelcomeActivity extends AppCompatActivity {
         btnSettings.setOnClickListener(v -> {
             Intent intent = new Intent(WelcomeActivity.this, SettingsActivity.class);
             startActivity(intent);
+        });
+
+        btnCareGuide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this, PlantCareGuideActivity.class);
+                startActivity(intent);
+            }
         });
 
     }
