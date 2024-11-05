@@ -2,11 +2,11 @@
     <!-- Otros strings -->
     <string name="app_name">PlantPal</string>
 
-    <!-- Tipos de plantas para el Spinner -->
     <string-array name="plant_types">
-        <item>Hierba</item>
-        <item>Mata</item>
-        <item>Arbusto</item>
-        <item>Árbol</item>
+        <item>Hierbas</item>
+        <item>Matas</item>
+        <item>Arbustos</item>
+        <item>Árboles</item>
     </string-array>
+
 </resources>

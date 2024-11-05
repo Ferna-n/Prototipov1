@@ -4,48 +4,77 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class PlantListActivity extends AppCompatActivity {
+public class PlantListActivity extends AppCompatActivity implements PlantAdapter.OnPlantClickListener {
 
-    private RecyclerView rvPlants;
+    private RecyclerView recyclerView;
     private PlantAdapter plantAdapter;
     private ArrayList<Plant> plantList;
-    private Button btnBack;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_list);
 
-        rvPlants = findViewById(R.id.rv_plants);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        plantList = new ArrayList<>();
-        plantAdapter = new PlantAdapter(plantList);
-        btnBack = findViewById(R.id.btn_back);
+        databaseHelper = new DatabaseHelper(this);
+        loadPlants(); // Cargar las plantas al inicio
 
-        rvPlants.setLayoutManager(new LinearLayoutManager(this));
-        rvPlants.setAdapter(plantAdapter);
-
-        // Obtener la lista actualizada de plantas
-        if (getIntent().getSerializableExtra("plantList") != null) {
-            plantList = (ArrayList<Plant>) getIntent().getSerializableExtra("plantList");
-            plantAdapter.updatePlantList(plantList);  // Actualizamos la lista en el adapter
-        }
-
-        // Configurar el botón de volver
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PlantListActivity.this, WelcomeActivity.class);
-                startActivity(intent);
-                finish(); // Opcional, para cerrar esta actividad
-            }
+        Button btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> {
+            Intent intent = new Intent(PlantListActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
         });
+    }
+
+    private void loadPlants() {
+        plantList = databaseHelper.getPlants(); // Obtener plantas desde la base de datos
+        plantAdapter = new PlantAdapter(plantList, this, this);
+        recyclerView.setAdapter(plantAdapter);
+    }
+
+    @Override
+    public void onPlantClick(Plant plant) {
+        // Aquí puedes manejar la acción de clic en un item de planta si lo deseas
+    }
+
+    @Override
+    public void onPlantDelete(Plant plant) {
+        // Eliminar la planta de la base de datos
+        if (databaseHelper.deletePlant(plant.getId())) {
+            plantList.remove(plant);
+            plantAdapter.notifyDataSetChanged();
+            Toast.makeText(this, "Planta eliminada", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error al eliminar la planta", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onPlantModify(Plant plant) {
+        // Aquí puedes manejar la modificación de la planta
+        Intent intent = new Intent(PlantListActivity.this, ModifyPlantActivity.class);
+        intent.putExtra("plant", plant);
+        startActivityForResult(intent, 2); // Lanzar ModifyPlantActivity
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            loadPlants(); // Volver a cargar la lista de plantas
+        }
     }
 }

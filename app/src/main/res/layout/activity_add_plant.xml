@@ -17,7 +17,7 @@
         android:layout_height="35dp" />
 
     <EditText
-        android:id="@+id/et_plant_name"
+        android:id="@+id/editTextPlantName"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="Nombre de la Planta"
@@ -27,7 +27,7 @@
         android:textColorHint="#000000" />
 
     <EditText
-        android:id="@+id/et_watering_frequency"
+        android:id="@+id/tv_watering_frequency"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="Frecuencia de Riego (días)"
@@ -36,23 +36,27 @@
         android:textColorHighlight="#000000"
         android:textColorHint="#000000" />
 
-    <Spinner
-        android:id="@+id/sp_plant_type"
+    <EditText
+        android:id="@+id/editTextPlantType"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:hint="Tipo de planta"
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000"/>
 
     <Button
-        android:id="@+id/btn_save_plant"
+        android:id="@+id/buttonAddPlant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:backgroundTint="#4CAF50"
         android:padding="16dp"
-        android:text="Guardar Planta"
+        android:text="Agregar Planta"
         android:textColor="#000000" />
 
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/buttonBack"
         android:layout_width="128dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

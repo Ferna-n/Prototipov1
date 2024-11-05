@@ -1,45 +1,87 @@
 package com.example.plantpal;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Plant implements Serializable {
+public class Plant implements Parcelable {
+    private int id;
     private String name;
-    private String species;
-    private int wateringFrequency;
+    private String type;
+    private int days;
 
-    public Plant(String name, String species, int wateringFrequency) {
+    // Constructor
+    public Plant(int id, String name, String type, int days) {
+        this.id = id;
         this.name = name;
-        this.species = species;
-        this.wateringFrequency = wateringFrequency;
+        this.type = type;
+        this.days = days;
     }
 
-    // Getters y setters si los necesitas
+    // Constructor para Parcelable
+    protected Plant(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        type = in.readString();
+        days = in.readInt();
+    }
+
+    // Implementación de Parcelable
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeInt(id);
+        parcel.writeString(name);
+        parcel.writeString(type);
+        parcel.writeInt(days);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Plant> CREATOR = new Creator<Plant>() {
+        @Override
+        public Plant createFromParcel(Parcel in) {
+            return new Plant(in);
+        }
+
+        @Override
+        public Plant[] newArray(int size) {
+            return new Plant[size];
+        }
+    };
+
+    // Getters
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    // Setters
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getSpecies() {
-        return species;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setSpecies(String species) {
-        this.species = species;
-    }
-
-    public int getWateringFrequency() {
-        return wateringFrequency;
-    }
-
-    public void setWateringFrequency(int wateringFrequency) {
-        this.wateringFrequency = wateringFrequency;
-    }
-
-    @Override
-    public String toString() {
-        return name + " (" + species + ") - Riego cada " + wateringFrequency + " días";
+    public void setDays(int days) {
+        this.days = days;
     }
 }

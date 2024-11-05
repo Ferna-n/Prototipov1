@@ -1,5 +1,6 @@
 package com.example.plantpal;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch switchNotifications;
     private RatingBar ratingBar;
     private Button btnSaveSettings, btnBack;
+    private Button buttonLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.ratingBar);
         btnSaveSettings = findViewById(R.id.btn_save_settings);
         btnBack = findViewById(R.id.btn_back);
+        buttonLogout = findViewById(R.id.button_logout);
 
         // Recuperar configuraciones de SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
@@ -52,6 +55,21 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(SettingsActivity.this, notificationsEnabled ? "Notificaciones activadas" : "Notificaciones desactivadas", Toast.LENGTH_SHORT).show();
         });
 
-        btnBack.setOnClickListener(v -> finish()); // Regresar a la actividad anterior
+        // Cerrar sesión
+        buttonLogout.setOnClickListener(v -> {
+            // Aquí puedes limpiar cualquier información de sesión si es necesario
+            // Por ejemplo, puedes eliminar el token de acceso en SharedPreferences si lo estás usando
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear(); // Limpia todas las preferencias
+            editor.apply();
+
+            // Redirige a LoginActivity
+            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // Cierra esta actividad
+        });
+
+        // Volver a la actividad anterior
+        btnBack.setOnClickListener(v -> finish());
     }
 }
