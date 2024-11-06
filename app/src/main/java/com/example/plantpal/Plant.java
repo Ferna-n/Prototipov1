@@ -1,87 +1,62 @@
 package com.example.plantpal;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.io.Serializable;
 
-public class Plant implements Parcelable {
+public class Plant implements Serializable {
     private int id;
     private String name;
     private String type;
+    private String description;
     private int days;
 
-    // Constructor
-    public Plant(int id, String name, String type, int days) {
+    // Constructor, getters y setters
+
+    public Plant(int id, String name, String type, String description, int days) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.description = description;
         this.days = days;
     }
 
-    // Constructor para Parcelable
-    protected Plant(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        type = in.readString();
-        days = in.readInt();
-    }
-
-    // Implementación de Parcelable
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(id);
-        parcel.writeString(name);
-        parcel.writeString(type);
-        parcel.writeInt(days);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Plant> CREATOR = new Creator<Plant>() {
-        @Override
-        public Plant createFromParcel(Parcel in) {
-            return new Plant(in);
-        }
-
-        @Override
-        public Plant[] newArray(int size) {
-            return new Plant[size];
-        }
-    };
-
-    // Getters
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public int getDays() {
-        return days;
-    }
-
-    // Setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setType(String type) {
         this.type = type;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
     public void setDays(int days) {
         this.days = days;
     }
 }
+

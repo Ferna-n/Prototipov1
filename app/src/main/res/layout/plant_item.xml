@@ -17,6 +17,24 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/text_view_plant_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/text_view_plant_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <TextView
         android:id="@+id/text_view_days"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

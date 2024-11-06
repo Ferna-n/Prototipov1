@@ -1,43 +1,85 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/back">
+    android:padding="8dp">
 
     <TextView
-        android:id="@+id/tv_plant_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_view_plant_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nombre de la Planta"
+        android:gravity="center"
+        android:padding="16dp"
         android:textColor="#000000"
         android:textColorHighlight="#000000"
         android:textColorHint="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/tv_plant_species"
-        android:layout_width="wrap_content"
+        android:id="@+id/text_view_type"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Especie de Planta"
+        android:gravity="center"
+        android:padding="16dp"
         android:textColor="#000000"
         android:textColorHighlight="#000000"
         android:textColorHint="#000000"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/text_view_description"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="#4CAF50"
+        android:gravity="center"
         android:padding="16dp"
-        android:text="Volver"
         android:textColor="#000000"
-        android:visibility="invisible" />
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000"
+        android:textSize="16sp" />
 
+    <TextView
+        android:id="@+id/text_view_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#000000" />
 
+    <!-- Añadir un espacio para separar los textos de los botones -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/button_modify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4CAF50"
+            android:padding="16dp"
+            android:text="Modificar"
+            android:textColor="#000000" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="match_parent"/> <!-- Espacio entre los botones -->
+
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4CAF50"
+            android:padding="16dp"
+            android:text="Eliminar"
+            android:textColor="#000000" />
+    </LinearLayout>
 </LinearLayout>

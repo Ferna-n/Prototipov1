@@ -11,20 +11,21 @@ import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "plantPal.db";
-    private static final int DATABASE_VERSION = 3; // Incrementa la versión para aplicar cambios en la estructura
+    private static final int DATABASE_VERSION = 4; // Incrementar la versión para aplicar cambios en la estructura
 
-    // Tabla de usuarios
+    // User table
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
 
-    // Tabla de plantas
+    // Plant table
     private static final String TABLE_PLANTS = "plants";
     private static final String COLUMN_PLANT_ID = "id";
     private static final String COLUMN_PLANT_NAME = "name";
     private static final String COLUMN_PLANT_TYPE = "type";
-    private static final String COLUMN_PLANT_DAYS = "days"; // Nueva columna para los días
+    private static final String COLUMN_PLANT_DAYS = "days"; // Columna para días
+    private static final String COLUMN_PLANT_DESCRIPTION = "description"; // Columna para descripción
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,35 +33,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Crear tabla de usuarios
+        // Create users table
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_USERNAME + " TEXT NOT NULL UNIQUE, " +
                 COLUMN_PASSWORD + " TEXT NOT NULL)";
         db.execSQL(createUsersTable);
 
-        // Crear tabla de plantas
+        // Create plants table
         String createPlantsTable = "CREATE TABLE " + TABLE_PLANTS + " (" +
                 COLUMN_PLANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_PLANT_NAME + " TEXT NOT NULL, " +
                 COLUMN_PLANT_TYPE + " TEXT NOT NULL, " +
-                COLUMN_PLANT_DAYS + " INTEGER NOT NULL)"; // Agrega columna para los días
+                COLUMN_PLANT_DAYS + " INTEGER NOT NULL, " +
+                COLUMN_PLANT_DESCRIPTION + " TEXT)"; // Añadir columna para descripción
         db.execSQL(createPlantsTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Verifica si la tabla plants existe antes de aplicar ALTER TABLE
-        try {
-            if (oldVersion < 3) {
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE_PLANTS + " (" +
-                        COLUMN_PLANT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_PLANT_NAME + " TEXT NOT NULL, " +
-                        COLUMN_PLANT_TYPE + " TEXT NOT NULL, " +
-                        COLUMN_PLANT_DAYS + " INTEGER DEFAULT 0)");
-            }
-        } catch (Exception e) {
-            Log.e("DatabaseHelper", "Error en onUpgrade: " + e.getMessage(), e);
+        // Verifica si la tabla de plantas existe antes de aplicar ALTER TABLE
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE " + TABLE_PLANTS + " ADD COLUMN " + COLUMN_PLANT_DESCRIPTION + " TEXT"); // Agregar columna de descripción
         }
     }
 
@@ -125,20 +119,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return isTaken;
     }
 
-    public boolean addPlant(String name, String type, int days) {
+    public boolean addPlant(String name, String type, int days, String description) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_PLANT_NAME, name);
         values.put(COLUMN_PLANT_TYPE, type);
-        values.put(COLUMN_PLANT_DAYS, days); // Agregar los días
+        values.put(COLUMN_PLANT_DAYS, days); // Agregar días
+        values.put(COLUMN_PLANT_DESCRIPTION, description); // Agregar descripción
 
         long result = -1;
         try {
             result = db.insert(TABLE_PLANTS, null, values);
         } catch (Exception e) {
-            Log.e("DatabaseHelper", "Error al agregar planta: " + e.getMessage(), e); // Incluye toda la excepción en el log
+            Log.e("DatabaseHelper", "Error adding plant: " + e.getMessage(), e);
         } finally {
-            db.close(); // Cierra la conexión
+            db.close(); // Cerrar la conexión
         }
 
         return result != -1;
@@ -156,7 +151,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String name = cursor.getString(cursor.getColumnIndex(COLUMN_PLANT_NAME));
                 String type = cursor.getString(cursor.getColumnIndex(COLUMN_PLANT_TYPE));
                 int days = cursor.getInt(cursor.getColumnIndex(COLUMN_PLANT_DAYS));
-                plants.add(new Plant(id, name, type, days));
+                String description = cursor.getString(cursor.getColumnIndex(COLUMN_PLANT_DESCRIPTION)); // Obtener descripción
+                plants.add(new Plant(id, name, type, description, days)); // Asegúrate de que la clase Plant tenga un constructor adecuado
             }
             cursor.close();
         }
@@ -175,6 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PLANT_NAME, plant.getName());
         values.put(COLUMN_PLANT_TYPE, plant.getType());
         values.put(COLUMN_PLANT_DAYS, plant.getDays());
+        values.put(COLUMN_PLANT_DESCRIPTION, plant.getDescription()); // Actualizar descripción
 
         int rowsAffected = db.update(TABLE_PLANTS, values, COLUMN_PLANT_ID + "=?", new String[]{String.valueOf(plant.getId())});
         db.close();

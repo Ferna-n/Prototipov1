@@ -2,7 +2,6 @@ package com.example.plantpal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -29,7 +28,7 @@ public class PlantListActivity extends AppCompatActivity implements PlantAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         databaseHelper = new DatabaseHelper(this);
-        loadPlants(); // Cargar las plantas al inicio
+        loadPlants(); // Cargar las plantas al iniciar
 
         Button btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> {
@@ -39,20 +38,17 @@ public class PlantListActivity extends AppCompatActivity implements PlantAdapter
         });
     }
 
+    // Método para cargar las plantas desde la base de datos
     private void loadPlants() {
         plantList = databaseHelper.getPlants(); // Obtener plantas desde la base de datos
         plantAdapter = new PlantAdapter(plantList, this, this);
         recyclerView.setAdapter(plantAdapter);
     }
 
-    @Override
-    public void onPlantClick(Plant plant) {
-        // Aquí puedes manejar la acción de clic en un item de planta si lo deseas
-    }
 
     @Override
     public void onPlantDelete(Plant plant) {
-        // Eliminar la planta de la base de datos
+        // Eliminar planta de la base de datos
         if (databaseHelper.deletePlant(plant.getId())) {
             plantList.remove(plant);
             plantAdapter.notifyDataSetChanged();
@@ -64,17 +60,27 @@ public class PlantListActivity extends AppCompatActivity implements PlantAdapter
 
     @Override
     public void onPlantModify(Plant plant) {
-        // Aquí puedes manejar la modificación de la planta
+        // Iniciar ModifyPlantActivity para modificar la planta
         Intent intent = new Intent(PlantListActivity.this, ModifyPlantActivity.class);
-        intent.putExtra("plant", plant);
-        startActivityForResult(intent, 2); // Lanzar ModifyPlantActivity
+        intent.putExtra("plant", plant); // Pasar el objeto Plant a ModifyPlantActivity
+        startActivityForResult(intent, 2); // Iniciar ModifyPlantActivity con requestCode 2
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            loadPlants(); // Volver a cargar la lista de plantas
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null) {
+            Plant updatedPlant = (Plant) data.getSerializableExtra("updatedPlant");
+            if (updatedPlant != null) {
+                // Encuentra la planta en la lista y actualízala
+                for (int i = 0; i < plantList.size(); i++) {
+                    if (plantList.get(i).getId() == updatedPlant.getId()) {
+                        plantList.set(i, updatedPlant); // Actualizar la planta modificada
+                        plantAdapter.notifyItemChanged(i); // Notificar al adaptador sobre el cambio
+                        break;
+                    }
+                }
+            }
         }
     }
 }

@@ -13,14 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHolder> {
+
     private ArrayList<Plant> plantList;
-    private Context context;
     private OnPlantClickListener listener;
+    private Context context;
 
     public interface OnPlantClickListener {
-        void onPlantClick(Plant plant);
         void onPlantDelete(Plant plant);
-        void onPlantModify(Plant plant); // Nueva interfaz para modificar
+        void onPlantModify(Plant plant);
     }
 
     public PlantAdapter(ArrayList<Plant> plantList, Context context, OnPlantClickListener listener) {
@@ -29,22 +29,23 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
         this.listener = listener;
     }
 
-    @NonNull
     @Override
-    public PlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item, parent, false);
-        return new PlantViewHolder(view);
+    public PlantViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_plant, parent, false);
+        return new PlantViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PlantViewHolder holder, int position) {
+    public void onBindViewHolder(PlantViewHolder holder, int position) {
         Plant plant = plantList.get(position);
-        holder.textViewPlantName.setText(plant.getName());
-        holder.textViewDays.setText("Días: " + plant.getDays()); // Mostrar días
 
-        holder.itemView.setOnClickListener(v -> listener.onPlantClick(plant));
-        holder.buttonDelete.setOnClickListener(v -> listener.onPlantDelete(plant));
-        holder.buttonModify.setOnClickListener(v -> listener.onPlantModify(plant)); // Manejar modificar
+        holder.nameTextView.setText("Planta: " + plant.getName());
+        holder.typeTextView.setText("Tipo: " + plant.getType()); // Mostrar el tipo
+        holder.descriptionTextView.setText("Descripción: " + plant.getDescription()); // Mostrar la descripción
+        holder.daysTextView.setText("Días: " + plant.getDays());
+
+        holder.modifyButton.setOnClickListener(v -> listener.onPlantModify(plant));
+        holder.deleteButton.setOnClickListener(v -> listener.onPlantDelete(plant));
     }
 
     @Override
@@ -53,17 +54,17 @@ public class PlantAdapter extends RecyclerView.Adapter<PlantAdapter.PlantViewHol
     }
 
     public static class PlantViewHolder extends RecyclerView.ViewHolder {
-        public TextView textViewPlantName;
-        public TextView textViewDays; // Nueva vista para mostrar días
-        public Button buttonDelete;
-        public Button buttonModify; // Nuevo botón para modificar
+        TextView nameTextView, typeTextView, descriptionTextView, daysTextView;
+        Button modifyButton, deleteButton;
 
         public PlantViewHolder(View itemView) {
             super(itemView);
-            textViewPlantName = itemView.findViewById(R.id.text_view_plant_name);
-            textViewDays = itemView.findViewById(R.id.text_view_days); // Agregar esta línea
-            buttonDelete = itemView.findViewById(R.id.button_delete);
-            buttonModify = itemView.findViewById(R.id.button_modify); // Inicializar botón modificar
+            nameTextView = itemView.findViewById(R.id.text_view_plant_name);
+            typeTextView = itemView.findViewById(R.id.text_view_type);
+            descriptionTextView = itemView.findViewById(R.id.text_view_description);
+            daysTextView = itemView.findViewById(R.id.text_view_days);
+            modifyButton = itemView.findViewById(R.id.button_modify);
+            deleteButton = itemView.findViewById(R.id.button_delete);
         }
     }
 }

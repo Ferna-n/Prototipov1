@@ -1,16 +1,19 @@
 package com.example.plantpal;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+
+
 
 public class ModifyPlantActivity extends AppCompatActivity {
 
-    private EditText editTextName, editTextDays;
+    private EditText etPlantName, etPlantType, etPlantDescription, etPlantDays; // Agregar campo para días
+    private Button btnSave;
     private Plant plant;
     private DatabaseHelper databaseHelper;
 
@@ -19,36 +22,39 @@ public class ModifyPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_plant);
 
-        editTextName = findViewById(R.id.edit_text_name);
-        editTextDays = findViewById(R.id.edit_text_days);
+        etPlantName = findViewById(R.id.et_plant_name);
+        etPlantType = findViewById(R.id.et_plant_type);
+        etPlantDescription = findViewById(R.id.et_plant_description); // Campo para descripción
+        etPlantDays = findViewById(R.id.et_plant_days); // Campo para días
+        btnSave = findViewById(R.id.btn_save);
 
         databaseHelper = new DatabaseHelper(this);
-
-        // Recuperar la planta desde el Intent
         plant = (Plant) getIntent().getSerializableExtra("plant");
-        if (plant != null) {
-            editTextName.setText(plant.getName());
-            editTextDays.setText(String.valueOf(plant.getDays()));
-        }
 
-        Button btnSave = findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(v -> {
-            String name = editTextName.getText().toString();
-            String daysString = editTextDays.getText().toString();
+        // Rellenar campos con datos existentes
+        etPlantName.setText(plant.getName());
+        etPlantType.setText(plant.getType());
+        etPlantDescription.setText(plant.getDescription());
+        etPlantDays.setText(String.valueOf(plant.getDays())); // Suponiendo que tienes un método getDays()
 
-            int days = 0;
-            if (!daysString.isEmpty()) {
-                days = Integer.parseInt(daysString);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                plant.setName(etPlantName.getText().toString());
+                plant.setType(etPlantType.getText().toString());
+                plant.setDescription(etPlantDescription.getText().toString());
+                plant.setDays(Integer.parseInt(etPlantDays.getText().toString())); // Actualizar días
+
+                if (databaseHelper.updatePlant(plant)) {
+                    Toast.makeText(ModifyPlantActivity.this, "Planta actualizada", Toast.LENGTH_SHORT).show();
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("updatedPlant", plant);
+                    setResult(RESULT_OK, returnIntent); // Devolver la planta actualizada
+                    finish();
+                } else {
+                    Toast.makeText(ModifyPlantActivity.this, "Error al actualizar planta", Toast.LENGTH_SHORT).show();
+                }
             }
-
-            plant.setName(name);
-            plant.setDays(days);
-            databaseHelper.updatePlant(plant); // Actualizar la planta en la base de datos
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("modifiedPlant", plant);
-            setResult(RESULT_OK, resultIntent);
-            finish();
         });
     }
 }
