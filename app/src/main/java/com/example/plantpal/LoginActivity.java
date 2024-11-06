@@ -31,7 +31,10 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> loginUser());
         btnRegister.setOnClickListener(v -> registerUser());
-        btnExit.setOnClickListener(v -> finish());
+        btnExit.setOnClickListener(v -> {
+            // Cerrar la actividad actual y salir de la aplicación
+            finishAffinity(); // Cierra todas las actividades en la pila y sale de la aplicación
+        });
 
         chkShowPassword.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
